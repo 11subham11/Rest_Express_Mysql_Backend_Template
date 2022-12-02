@@ -60,7 +60,7 @@ const loginUser = async (req, res) => {
                 }
               } else {
                 await All_Users.update(
-                  { count: 0},
+                  { count: 0 },
                   {
                     where: {
                       email: userExists.email,
@@ -70,7 +70,7 @@ const loginUser = async (req, res) => {
 
                 const token = sign(
                   {
-                    role:userExists.role,
+                    role: userExists.role,
                     id: userExists.id,
                     name: userExists.firstName,
                     email: userExists.email,
@@ -80,7 +80,7 @@ const loginUser = async (req, res) => {
                 return res.json({
                   token,
                   message: "success",
-                  role:userExists.role,
+                  role: userExists.role,
                   id: userExists.id,
                   name: userExists.firstName,
                   email: userExists.email,
@@ -89,7 +89,9 @@ const loginUser = async (req, res) => {
             });
         }
       } else {
-        res.json({ error: "Either You are Not User or your account is pending" });
+        res.json({
+          error: "Either You are Not User or your account is pending",
+        });
       }
     } else {
       console.log("Invalid");
@@ -138,7 +140,7 @@ const registerUser = async (req, res) => {
         console.log(error);
       };
   } catch (err) {
-    res.json(err)
+    res.json(err);
     console.log(err);
   }
 };
@@ -167,75 +169,227 @@ const getUser = async (req, res) => {
   }
 };
 
-//Delete User by Id
-const deleteUser = async (req, res) => {
+//Deleted User By Id
+const DeletedUserById = async (req, res) => {
   try {
-    const id = req.params.id;
-    if (id) {
+    const UserId = req.params.id;
+    if (UserId) {
       await All_Users.update(
         {
           isDeleted: 1,
         },
         {
           where: {
-            id: id,
+            id: UserId,
           },
         }
       );
-      res.json({ message: "DELETED User SUCCESSFULLY" });
+
+      res.json("User Deleted!");
+      console.log("User Deleted!");
     } else {
-      res.json({ error: " Error while Deleting" });
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    res.json(error);
+    console.log(error);
   }
 };
 
-// SuspendUser By Id
-const suspendUser = async (req, res) => {
+//Activate User By Id
+const ActivateUser = async (req, res) => {
   try {
-    const id = req.params.id;
-    if (id) {
+    const UserId = req.params.id;
+    if (UserId) {
       await All_Users.update(
         {
-          isSuspended: 1,
+          isDeleted: 0,
         },
         {
           where: {
-            id: id,
+            id: UserId,
           },
         }
       );
-      res.json({ message: "User Suspended" });
+
+      res.json("User Activate!");
+      console.log("User Activate!");
     } else {
-      res.json({ error: "Error while suspending Admin" });
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    res.json(error);
+    console.log(error);
   }
 };
 
-//Block User by Id
-const blockUser = async (req, res) => {
+//Blocked User By Id
+const BlockedUserById = async (req, res) => {
   try {
-    const id = req.params.id;
-    if (id) {
+    const UserId = req.params.id;
+    if (UserId) {
       await All_Users.update(
         {
           isBlocked: 1,
         },
         {
           where: {
-            id: id,
+            id: UserId,
           },
         }
       );
-      res.json({ message: "User Blocked" });
+
+      res.json("User Blocked!");
+      console.log("User Blocked!");
     } else {
-      res.json({ error: "Error while Blocking Admin" });
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
     }
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    res.json(error);
+    console.log(error);
+  }
+};
+
+//UnBlock User By Id
+const UnBlockUser = async (req, res) => {
+  try {
+    const UserId = req.params.id;
+    if (UserId) {
+      await All_Users.update(
+        {
+          isBlocked: 0,
+        },
+        {
+          where: {
+            id: UserId,
+          },
+        }
+      );
+
+      res.json("User UnBlocked!");
+      console.log("User UnBlocked!");
+    } else {
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
+    }
+  } catch (error) {
+    res.json(error);
+    console.log(error);
+  }
+};
+
+//Confirm User By Id
+const ConfirmUserById = async (req, res) => {
+  try {
+    const UserId = req.params.id;
+    if (UserId) {
+      await All_Users.update(
+        {
+          isConfirmed: 1,
+        },
+        {
+          where: {
+            id: UserId,
+          },
+        }
+      );
+
+      res.json("User Confirm!");
+      console.log("User Confirm!");
+    } else {
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
+    }
+  } catch (error) {
+    res.json(error);
+    console.log(error);
+  }
+};
+
+//UnConfirm User By Id
+const UnConfirmUser = async (req, res) => {
+  try {
+    const UserId = req.params.id;
+    if (UserId) {
+      await All_Users.update(
+        {
+          isConfirmed: 0,
+        },
+        {
+          where: {
+            id: UserId,
+          },
+        }
+      );
+
+      res.json("User UnConfirm!");
+      console.log("User UnConfirm!");
+    } else {
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
+    }
+  } catch (error) {
+    res.json(error);
+    console.log(error);
+  }
+};
+
+//Suspend User By Id
+const SuspendUserById = async (req, res) => {
+  try {
+    const UserId = req.params.id;
+    if (UserId) {
+      await All_Users.update(
+        {
+          isSuspended: 1,
+        },
+        {
+          where: {
+            id: UserId,
+          },
+        }
+      );
+
+      res.json("User Suspend!");
+      console.log("User Suspend!");
+    } else {
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
+    }
+  } catch (error) {
+    res.json(error);
+    console.log(error);
+  }
+};
+
+//UnSuspend User By Id
+const UnSuspendUser = async (req, res) => {
+  try {
+    const UserId = req.params.id;
+    if (UserId) {
+      await All_Users.update(
+        {
+          isSuspended: 0,
+        },
+        {
+          where: {
+            id: UserId,
+          },
+        }
+      );
+
+      res.json("User UnSuspend!");
+      console.log("User UnSuspend!");
+    } else {
+      res.json("Invalid User Id...");
+      console.log("Invalid User Id...");
+    }
+  } catch (error) {
+    res.json(error);
+    console.log(error);
   }
 };
 
@@ -243,9 +397,14 @@ module.exports = {
   registerUser,
   getAllUsers,
   getUser,
-  deleteUser,
-  suspendUser,
-  blockUser,
   loginUser,
   auth,
+  DeletedUserById,
+  ActivateUser,
+  BlockedUserById,
+  UnBlockUser,
+  ConfirmUserById,
+  UnConfirmUser,
+  SuspendUserById,
+  UnSuspendUser,
 };
